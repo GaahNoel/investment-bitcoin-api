@@ -1,0 +1,4 @@
+@base_url = http://localhost:3333
+
+## Healthcheck
+GET http://localhost:3333/healthcheck
