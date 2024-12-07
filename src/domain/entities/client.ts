@@ -68,4 +68,8 @@ export class SavedClient extends Client {
 
     this._id = id
   }
+
+  public get id(): string {
+    return this._id
+  }
 }
