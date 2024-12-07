@@ -22,7 +22,7 @@ export class CreateClientUseCase implements CreateClient {
     })
 
     if (foundClient) {
-      throw new InvalidInputError('A client with same email has been found, cannot create other one with the same email')
+      throw new InvalidInputError('email', 'A client with same email has been found, cannot create other one with the same email')
     }
 
     const savedClient = await this.createClientRepository.create({

@@ -21,9 +21,11 @@ export abstract class BaseController<T> {
       return await this.execute(input)
     }
     catch (error) {
-      this.logger.error('Request failed', {
-        error,
-      })
+      if (error instanceof Error) {
+        this.logger.error('Request failed', {
+          error: error.message,
+        })
+      }
 
       if (error instanceof InvalidInputError) {
         return HttpMapper.badRequest(error)

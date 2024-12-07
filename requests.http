@@ -1,4 +1,26 @@
 @base_url = http://localhost:3333
 
-## Healthcheck
-GET http://localhost:3333/healthcheck
+### Health check
+GET {{base_url}}/health-check
+
+### @name Register
+POST {{base_url}}/register
+Content-Type: application/json
+
+{
+  "name": "any-name",
+  "password": "any-password",
+  "email": "any@email.com",
+  "balance": 100  
+}
+
+### @name Login
+POST {{base_url}}/login
+Content-Type: application/json
+
+{
+  "password": "any-password",
+  "email": "any@email.com"
+}
+
+

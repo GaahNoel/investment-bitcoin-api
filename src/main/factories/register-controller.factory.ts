@@ -1,14 +1,12 @@
 import { RegisterController } from '@/application/controllers/register.controller'
 import { CreateClientUseCase } from '@/domain/usecases/create-client.usecase'
 import { NodeCrypto } from '@/infra/libs/node-crypto.lib'
+import { WinstonLogger } from '@/infra/libs/winston-logger.lib'
 import { PrismaClientRepository } from '@/infra/repositories/prisma/prisma-client.repository'
 
 export class RegisterControllerFactory {
   static make(): RegisterController {
-    const logger = {
-      info: () => {},
-      error: () => {},
-    }
+    const logger = new WinstonLogger()
     const clientRepository = new PrismaClientRepository(logger)
     const encrypter = new NodeCrypto()
 
