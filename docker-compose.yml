@@ -9,3 +9,21 @@ services:
       - .:/usr/src/app
     environment: 
       SERVER_PORT: 3333
+  db:
+    image: postgres:latest
+    restart: always
+    expose: 
+      - "5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data 
+    healthcheck:
+      test: pg_isready -U postgres -d postgres
+      interval: 10s
+      timeout: 3s
+      retries: 3
+volumes: 
+  pgdata:
