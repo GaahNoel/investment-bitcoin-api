@@ -1,5 +1,5 @@
 @base_url = http://localhost:3333
-
+@token = 
 ### Health check
 GET {{base_url}}/health-check
 
@@ -22,5 +22,16 @@ Content-Type: application/json
   "password": "any-password",
   "email": "any@email.com"
 }
+
+### @name Deposit
+PATCH {{base_url}}/deposit
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": "5599ab39-c556-4748-89da-dfcf6d268cae",
+  "amount": 100
+}
+
 
 

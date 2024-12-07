@@ -22,6 +22,13 @@ export class HttpMapper {
     }
   }
 
+  static unauthorized(body?: unknown): HttpResponse {
+    return {
+      statusCode: 401,
+      body,
+    }
+  }
+
   static internalServerError(body?: unknown): HttpResponse {
     return {
       statusCode: 500,

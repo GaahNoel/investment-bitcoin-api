@@ -66,4 +66,17 @@ describe('PrismaClientRepository', () => {
       expect(response).toBeUndefined()
     })
   })
+
+  describe('update', () => {
+    it('should find a client successfully', async () => {
+      const createdClient = await sut.create(payload)
+
+      const response = await sut.update(createdClient.id, {
+        balance: 300,
+      })
+
+      expect(response).toBeInstanceOf(SavedClient)
+      expect(response?.balance).toBe(300)
+    })
+  })
 })
