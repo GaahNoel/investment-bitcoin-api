@@ -6,6 +6,7 @@ import 'dotenv/config'
 import { env } from '@/main/config/env'
 import fastifySwaggerUi from '@fastify/swagger-ui'
 import { healthcheck } from './routes/healthcheck'
+import { clients } from './routes/clients'
 
 async function startServer() {
   const server = fastify()
@@ -19,6 +20,8 @@ async function startServer() {
   })
 
   server.register(healthcheck)
+
+  server.register(clients)
 
   await server.listen({
     port: env.SERVER_PORT,

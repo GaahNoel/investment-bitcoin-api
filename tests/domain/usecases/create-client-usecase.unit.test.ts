@@ -5,7 +5,7 @@ import { mockCreatedClientRepository, mockFindClientRepository } from '@/tests/m
 import { mockEncrypter } from '@/tests/mocks/infra/encrypter.mock'
 import { mockLogger } from '@/tests/mocks/infra/logger.mock'
 import { mockMailSender } from '@/tests/mocks/infra/mail-sender.mock'
-import { CreateClientUseCase } from '@/usecases/create-client.usecase'
+import { CreateClientUseCase } from '@/domain/usecases/create-client.usecase'
 import { beforeAll, beforeEach, describe, expect, vi, it } from 'vitest'
 
 describe('CreateClientUseCase', () => {
@@ -27,7 +27,7 @@ describe('CreateClientUseCase', () => {
 
     payload = mockClientInput()
 
-    sut = new CreateClientUseCase(findClientRepository, createClientRepository, mailSender, encrypter, logger)
+    sut = new CreateClientUseCase(findClientRepository, createClientRepository, encrypter, logger)
   })
 
   it('should call find client repository with correct params', async () => {

@@ -7,11 +7,17 @@ export type ClientInput = {
   balance?: number
 }
 
-export type SavedClientInput = {
+export type ClientDTO = {
   name: string
   email: string
-  password: string
   balance?: number
+}
+
+export type SavedClientInput = ClientInput & {
+  id: string
+}
+
+export type SavedClientDTO = ClientDTO & {
   id: string
 }
 
@@ -56,6 +62,14 @@ export class Client {
 
     this._balance -= amount
   }
+
+  public getDTO(): ClientDTO {
+    return {
+      email: this._email,
+      name: this._name,
+      balance: this._balance,
+    }
+  }
 }
 
 export class SavedClient extends Client {
@@ -71,5 +85,12 @@ export class SavedClient extends Client {
 
   public get id(): string {
     return this._id
+  }
+
+  public override getDTO(): SavedClientDTO {
+    return {
+      ...super.getDTO(),
+      id: this._id,
+    }
   }
 }
