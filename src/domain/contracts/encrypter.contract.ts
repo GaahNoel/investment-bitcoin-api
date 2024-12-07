@@ -1,3 +1,7 @@
 export interface Encrypter {
-  encypt(value: string): string
+  encrypt(value: string): string
+}
+
+export interface HashComparer {
+  compare(value: string, otherValue: string): boolean
 }

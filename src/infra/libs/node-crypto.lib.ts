@@ -1,13 +1,20 @@
-import { Encrypter } from '@/domain/contracts/encrypter.contract'
+import { Encrypter, HashComparer } from '@/domain/contracts/encrypter.contract'
 import crypto from 'node:crypto'
 
-export class NodeCrypto implements Encrypter {
+export class NodeCrypto implements Encrypter, HashComparer {
   private readonly salt: string
   constructor() {
     this.salt = crypto.randomBytes(128).toString('base64')
   }
 
-  encypt(value: string): string {
-    return crypto.scryptSync(value, this.salt, 32).toString('hex')
+  encrypt(value: string): string {
+    return `${this.salt}.${crypto.scryptSync(value, this.salt, 64).toString('hex')}`
+  }
+
+  compare(encryptedValue: string, notEncryptedValue: string): boolean {
+    const [salt, hashedValue] = encryptedValue.split('.')
+    const hashedNotEncryptedValue = crypto.scryptSync(notEncryptedValue, salt, 64).toString('hex')
+
+    return hashedValue === hashedNotEncryptedValue
   }
 }

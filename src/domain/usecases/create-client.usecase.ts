@@ -28,7 +28,7 @@ export class CreateClientUseCase implements CreateClient {
     const savedClient = await this.createClientRepository.create({
       email: input.email,
       name: input.name,
-      password: this.encrypter.encypt(input.password),
+      password: this.encrypter.encrypt(input.password),
       balance: input.balance,
     })
 

@@ -22,10 +22,10 @@ export type SavedClientDTO = ClientDTO & {
 }
 
 export class Client {
-  private readonly _name: string
-  private readonly _email: string
-  private readonly _password: string
-  private _balance: number
+  protected readonly _name: string
+  protected readonly _email: string
+  protected readonly _password: string
+  protected _balance: number
 
   constructor(input: ClientInput) {
     this._name = input.name
@@ -85,6 +85,10 @@ export class SavedClient extends Client {
 
   public get id(): string {
     return this._id
+  }
+
+  public get password(): string {
+    return this._password
   }
 
   public override getDTO(): SavedClientDTO {
