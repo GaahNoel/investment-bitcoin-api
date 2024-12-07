@@ -3,5 +3,5 @@ export type TokenCreatorInput = {
 }
 
 export interface TokenCreator {
-  create(input: TokenCreatorInput): string
+  create(input: TokenCreatorInput): Promise<string>
 }

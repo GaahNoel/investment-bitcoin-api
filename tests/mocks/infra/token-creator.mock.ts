@@ -3,6 +3,6 @@ import { Mocked, vi } from 'vitest'
 
 export function mockTokenCreator(): Mocked<TokenCreator> {
   return {
-    create: vi.fn().mockReturnValue('any-token'),
+    create: vi.fn().mockResolvedValue('any-token'),
   }
 }

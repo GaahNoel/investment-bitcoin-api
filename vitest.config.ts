@@ -2,7 +2,6 @@ import path from 'path'
 import { configDefaults, defineConfig } from 'vitest/config'
 
 export default defineConfig({
-
   test: {
     coverage: {
       all: true,
@@ -16,6 +15,7 @@ export default defineConfig({
         lines: 100,
       },
     },
+    setupFiles: [path.resolve(__dirname, 'tests', 'config', 'env')],
     silent: true,
   },
   resolve: {
