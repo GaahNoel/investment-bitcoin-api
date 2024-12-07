@@ -9,6 +9,7 @@ services:
       - .:/usr/src/app
     environment: 
       SERVER_PORT: 3333
+
   db:
     image: postgres:latest
     restart: always
@@ -25,5 +26,23 @@ services:
       interval: 10s
       timeout: 3s
       retries: 3
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    expose:
+      - "5672"
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status" ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      
 volumes: 
   pgdata:

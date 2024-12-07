@@ -1,14 +1,23 @@
+import { WinstonLogger } from '@/infra/libs/winston-logger.lib'
+import { RabbitMQQueue } from '@/infra/queue/rabbit-mq.queue'
 import { client } from '@/infra/repositories/prisma/config/connection'
+import { env } from '@/main/config/env'
 import { clients } from '@/main/routes/clients'
 import fastify from 'fastify'
-import { expect, beforeEach, describe, it } from 'vitest'
+import { expect, beforeEach, describe, it, afterAll } from 'vitest'
 
 describe('LoginController E2E', () => {
   const server = fastify()
+  const logger = new WinstonLogger()
+  const queue = new RabbitMQQueue(env.RABBITMQ_URL, logger)
   server.register(clients)
 
   beforeEach(async () => {
     await client.client.deleteMany({})
+  })
+
+  afterAll(async () => {
+    await queue.clearQueue('email')
   })
 
   it('should return token of logged user correctly', async () => {

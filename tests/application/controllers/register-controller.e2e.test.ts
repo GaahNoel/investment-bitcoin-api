@@ -1,14 +1,23 @@
+import { WinstonLogger } from '@/infra/libs/winston-logger.lib'
+import { RabbitMQQueue } from '@/infra/queue/rabbit-mq.queue'
 import { client } from '@/infra/repositories/prisma/config/connection'
+import { env } from '@/main/config/env'
 import { clients } from '@/main/routes/clients'
 import fastify from 'fastify'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterAll, beforeEach, describe, expect, it } from 'vitest'
 
 describe('Register Controller E2E', () => {
   const server = fastify()
   server.register(clients)
+  const logger = new WinstonLogger()
+  const queue = new RabbitMQQueue(env.RABBITMQ_URL, logger)
 
   beforeEach(async () => {
     await client.client.deleteMany({})
+  })
+
+  afterAll(async () => {
+    await queue.clearQueue('email')
   })
 
   it('should return created and client infos if client created successfully', async () => {

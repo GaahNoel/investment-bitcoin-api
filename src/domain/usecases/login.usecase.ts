@@ -19,13 +19,13 @@ export class LoginUseCase implements Login {
     })
 
     if (!foundClient) {
-      throw new InvalidInputError('Client not found with provided email')
+      throw new InvalidInputError('email', 'Client not found with provided email')
     }
 
     const isValidPassword = this.hashComparer.compare(foundClient.password, input.password)
 
     if (!isValidPassword) {
-      throw new InvalidInputError('Provided credentials are invalid')
+      throw new InvalidInputError('password', 'Provided credentials are invalid')
     }
 
     const token = await this.tokenCreator.create({

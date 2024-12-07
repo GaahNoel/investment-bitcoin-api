@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import { FastifyAdapter } from '../adapters/fastify-route.adapter'
+import { FastifyAdapter } from '../adapters/fastify.adapter'
 import { RegisterControllerFactory } from '../factories/register-controller.factory'
 import { LoginControllerFactory } from '../factories/login-controller.factory'
 
@@ -25,7 +25,7 @@ export async function clients(server: FastifyInstance) {
         },
       },
     },
-  }, (request, reply) => FastifyAdapter.adapt(RegisterControllerFactory.make(), request, reply))
+  }, (request, reply) => FastifyAdapter.adaptRoute(RegisterControllerFactory.make(), request, reply))
 
   server.post('/login', {
     schema: {
@@ -41,5 +41,5 @@ export async function clients(server: FastifyInstance) {
         },
       },
     },
-  }, (request, reply) => FastifyAdapter.adapt(LoginControllerFactory.make(), request, reply))
+  }, (request, reply) => FastifyAdapter.adaptRoute(LoginControllerFactory.make(), request, reply))
 }

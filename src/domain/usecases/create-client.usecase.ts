@@ -5,12 +5,14 @@ import { FindClientRepository } from '@/domain/contracts/find-client-repository.
 import { Logger } from '@/domain/contracts/logger.contract'
 import { ClientInput, SavedClient } from '@/domain/entities/client'
 import { InvalidInputError } from '@/domain/errors/invalid-input.error'
+import { SendToQueue } from '../contracts/send-to-queue.contract'
 
 export class CreateClientUseCase implements CreateClient {
   constructor(
     private readonly findClientRepository: FindClientRepository,
     private readonly createClientRepository: CreateClientRepository,
     private readonly encrypter: Encrypter,
+    private readonly sendToEmailQueue: SendToQueue,
     private readonly logger: Logger,
   ) {}
 
@@ -30,6 +32,15 @@ export class CreateClientUseCase implements CreateClient {
       name: input.name,
       password: this.encrypter.encrypt(input.password),
       balance: input.balance,
+    })
+
+    await this.sendToEmailQueue.send({
+      queue: 'email',
+      data: {
+        email: input.email,
+        subject: 'Client registered successfully!',
+        text: 'Your register have been successfully created, got to login and enjoy the platform! 😊',
+      },
     })
 
     this.logger.info('Client creation process ended successfully')

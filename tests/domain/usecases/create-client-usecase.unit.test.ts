@@ -6,6 +6,7 @@ import { mockEncrypter } from '@/tests/mocks/infra/encrypter.mock'
 import { mockLogger } from '@/tests/mocks/infra/logger.mock'
 import { CreateClientUseCase } from '@/domain/usecases/create-client.usecase'
 import { beforeAll, beforeEach, describe, expect, vi, it } from 'vitest'
+import { mockSendToQueue } from '@/tests/mocks/infra/send-to-queue.mock'
 
 describe('CreateClientUseCase', () => {
   let sut: CreateClientUseCase
@@ -14,6 +15,7 @@ describe('CreateClientUseCase', () => {
   const findClientRepository = mockFindClientRepository()
   const createClientRepository = mockCreatedClientRepository()
   const encrypter = mockEncrypter()
+  const sendToEmailQueue = mockSendToQueue()
   const logger = mockLogger()
 
   beforeAll(() => {
@@ -25,7 +27,7 @@ describe('CreateClientUseCase', () => {
 
     payload = mockClientInput()
 
-    sut = new CreateClientUseCase(findClientRepository, createClientRepository, encrypter, logger)
+    sut = new CreateClientUseCase(findClientRepository, createClientRepository, encrypter, sendToEmailQueue, logger)
   })
 
   it('should call find client repository with correct params', async () => {
@@ -42,6 +44,19 @@ describe('CreateClientUseCase', () => {
     expect(createClientRepository.create).toHaveBeenCalledWith({
       ...payload,
       password: 'encrypted-value',
+    })
+  })
+
+  it('should call send email to queue with correct params', async () => {
+    await sut.handle(payload)
+
+    expect(sendToEmailQueue.send).toHaveBeenCalledWith({
+      queue: 'email',
+      data: {
+        email: payload.email,
+        subject: expect.any(String),
+        text: expect.any(String),
+      },
     })
   })
 
