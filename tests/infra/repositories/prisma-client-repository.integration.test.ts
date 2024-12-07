@@ -25,6 +25,16 @@ describe('PrismaClientRepository', () => {
       expect(response.id).toBeDefined()
     })
 
+    it('should create a client successfully without providing balance', async () => {
+      const response = await sut.create({
+        ...payload,
+        balance: undefined,
+      })
+
+      expect(response).toBeInstanceOf(SavedClient)
+      expect(response.id).toBeDefined()
+    })
+
     it('should throw error if an client with same email exists', async () => {
       await sut.create(payload)
 

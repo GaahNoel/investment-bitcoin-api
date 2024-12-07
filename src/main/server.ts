@@ -5,7 +5,7 @@ import path from 'path'
 import 'dotenv/config'
 import { env } from '@/main/config/env'
 import fastifySwaggerUi from '@fastify/swagger-ui'
-import { healthcheck } from './routes/healthcheck'
+import { healthCheck } from './routes/health-check'
 import { clients } from './routes/clients'
 
 async function startServer() {
@@ -19,7 +19,7 @@ async function startServer() {
     routePrefix: '/docs',
   })
 
-  server.register(healthcheck)
+  server.register(healthCheck)
 
   server.register(clients)
 

@@ -24,5 +24,5 @@ export async function clients(server: FastifyInstance) {
         },
       },
     },
-  }, (request, reply) => new FastifyAdapter().adapt(RegisterControllerFactory.make(), request, reply))
+  }, (request, reply) => FastifyAdapter.adapt(RegisterControllerFactory.make(), request, reply))
 }

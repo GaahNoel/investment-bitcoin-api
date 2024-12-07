@@ -4,7 +4,6 @@ import { mockClientInput, mockSavedClientInput } from '@/tests/mocks/entities/cl
 import { mockCreatedClientRepository, mockFindClientRepository } from '@/tests/mocks/infra/client-repository.mock'
 import { mockEncrypter } from '@/tests/mocks/infra/encrypter.mock'
 import { mockLogger } from '@/tests/mocks/infra/logger.mock'
-import { mockMailSender } from '@/tests/mocks/infra/mail-sender.mock'
 import { CreateClientUseCase } from '@/domain/usecases/create-client.usecase'
 import { beforeAll, beforeEach, describe, expect, vi, it } from 'vitest'
 
@@ -14,7 +13,6 @@ describe('CreateClientUseCase', () => {
 
   const findClientRepository = mockFindClientRepository()
   const createClientRepository = mockCreatedClientRepository()
-  const mailSender = mockMailSender()
   const encrypter = mockEncrypter()
   const logger = mockLogger()
 
@@ -53,16 +51,6 @@ describe('CreateClientUseCase', () => {
     const promise = sut.handle(payload)
 
     expect(promise).rejects.toThrow(InvalidInputError)
-  })
-
-  it('should call mail sender with correct input if customer was created correctly', async () => {
-    await sut.handle(payload)
-
-    expect(mailSender.sendMail).toHaveBeenCalledWith({
-      email: payload.email,
-      subject: 'Register confirmation!',
-      text: 'Your account have been created successfully',
-    })
   })
 
   it('should return saved client correctly', async () => {

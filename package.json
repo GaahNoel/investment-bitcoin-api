@@ -8,7 +8,8 @@
     "dev": "tsx --watch src/main/server.ts",
     "start": "node server.js",
     "test:watch": "vitest",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,7 @@
     "@eslint/js": "^9.16.0",
     "@stylistic/eslint-plugin": "^2.11.0",
     "@types/node": "^22.10.1",
+    "@vitest/coverage-v8": "2.1.8",
     "eslint": "^9.16.0",
     "globals": "^15.13.0",
     "prisma": "^6.0.1",

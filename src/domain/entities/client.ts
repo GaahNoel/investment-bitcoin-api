@@ -48,8 +48,8 @@ export class Client {
   }
 
   public addBalance(amount: number) {
-    if (amount <= 0) {
-      throw new InvalidInputError('amount', 'Cannot add an amount lower than zero or undefined')
+    if (amount < 0) {
+      throw new InvalidInputError('amount', 'Cannot add an amount lower than zero')
     }
 
     this._balance += amount

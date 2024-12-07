@@ -19,6 +19,17 @@ describe('Client Entity', () => {
       expect(client.email).toBe(input.email)
     })
 
+    it('should create Client with correctly input and with balance 0 if not provided', () => {
+      const client = new Client({
+        ...input,
+        balance: undefined,
+      })
+
+      expect(client.balance).toBe(0)
+      expect(client.name).toBe(input.name)
+      expect(client.email).toBe(input.email)
+    })
+
     it('should throw error if amount provided is lower than zero', () => {
       expect(() => new Client({
         ...input,
