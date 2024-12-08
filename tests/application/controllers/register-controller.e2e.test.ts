@@ -32,9 +32,11 @@ describe('Register Controller E2E', () => {
       },
     })
 
+    const body = response.json()
+
     const savedClient = await client.client.findFirst({
       where: {
-        id: response.json().id,
+        id: body.id,
       },
     })
 

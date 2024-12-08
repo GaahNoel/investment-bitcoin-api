@@ -14,8 +14,6 @@ export class AuthMiddleware {
       throw new UnauthorizedError()
     }
 
-    console.log(input)
-
     const decodedToken = await this.tokenDecoder.decode(input.token)
 
     return {

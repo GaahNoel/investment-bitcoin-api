@@ -29,8 +29,11 @@ describe('RabbitMQQueue', () => {
       },
     })
 
-    const promise = sut.consume('email', async () => {
-      return
+    const promise = sut.consume({
+      callback: async () => {
+        return
+      },
+      queue: 'email',
     })
 
     await expect(promise).resolves.not.toThrow

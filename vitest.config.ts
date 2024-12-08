@@ -2,17 +2,21 @@ import path from 'path'
 import { configDefaults, defineConfig } from 'vitest/config'
 
 export default defineConfig({
-
   test: {
-    poolOptions: {
-      threads: {
-        singleThread: true,
-      },
-    },
+    fileParallelism: false,
     coverage: {
       all: true,
       include: ['src/**/*.ts'],
-      exclude: [...configDefaults.exclude, 'prisma/**', 'src/**/contracts', 'src/main/server.ts', 'src/main/config', 'src/main/factories'],
+      exclude: [
+        ...configDefaults.exclude,
+        'prisma/**',
+        'src/**/contracts',
+        'src/main/server.ts',
+        'src/main/config',
+        'src/main/factories',
+        'src/application/middlewares/base.middleware.ts',
+        'src/fakes',
+      ],
       provider: 'v8',
       thresholds: {
         statements: 100,

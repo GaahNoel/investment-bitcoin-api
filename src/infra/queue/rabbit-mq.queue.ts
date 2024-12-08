@@ -1,8 +1,9 @@
+import { ConsumeFromQueue, ConsumeFromQueueInput } from '@/domain/contracts/consume-from-queue.contract'
 import { Logger } from '@/domain/contracts/logger.contract'
 import { SendToQueue, SendToQueueInput } from '@/domain/contracts/send-to-queue.contract'
 import amqp, { Channel, Connection } from 'amqplib'
 
-export class RabbitMQQueue implements SendToQueue {
+export class RabbitMQQueue implements SendToQueue, ConsumeFromQueue {
   private connection?: Connection
   private channel?: Channel
 
@@ -34,14 +35,14 @@ export class RabbitMQQueue implements SendToQueue {
     return Boolean(response)
   }
 
-  async consume(queueName: string, handler: (message: unknown) => Promise<void>): Promise<void> {
+  async consume({ callback, queue }: ConsumeFromQueueInput): Promise<void> {
     if (this.channel === undefined) {
       await this.createConnection()
     }
-    this.channel?.assertQueue(queueName, { durable: true })
-    await this.channel?.consume(queueName, async (message) => {
+    this.channel?.assertQueue(queue, { durable: true })
+    await this.channel?.consume(queue, async (message) => {
       if (message) {
-        await handler(message.content.toString())
+        await callback(message.content.toString())
         this.channel?.ack(message)
       }
     })

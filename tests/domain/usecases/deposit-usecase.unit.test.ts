@@ -37,6 +37,14 @@ describe('DepositUseCase', () => {
     expect(sendToEmailQueue.send).toHaveBeenCalled(),
   ])
 
+  it('should throw error if client provided was not found', async () => {
+    findClientRepository.find.mockResolvedValueOnce(undefined)
+
+    const promise = sut.handle(payload)
+
+    await expect(promise).rejects.toThrow(InvalidInputError)
+  })
+
   it('should throw error if amount provided is lower than zero', async () => {
     const promise = sut.handle({
       ...payload,

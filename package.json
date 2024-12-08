@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsup src",
-    "dev": "tsx --watch src/main/server.ts",
+    "dev": "NODE_ENV=development tsx --watch src/main/server.ts",
     "start": "node server.js",
     "test:watch": "vitest",
     "test": "vitest run",
@@ -34,6 +34,7 @@
     "@fastify/swagger": "^9.4.0",
     "@fastify/swagger-ui": "^5.2.0",
     "@prisma/client": "6.0.1",
+    "@sendgrid/mail": "^8.1.4",
     "amqplib": "^0.10.5",
     "dotenv": "^16.4.7",
     "fastify": "^5.1.0",

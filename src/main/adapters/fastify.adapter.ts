@@ -3,6 +3,7 @@ import { BaseController } from '@/application/controllers/base.controller'
 import { HttpMapper } from '@/application/mappers/http.mapper'
 import { BaseMiddleware } from '@/application/middlewares/base.middleware'
 import { UnauthorizedError } from '@/domain/errors/unauthorized.error'
+import * as jose from 'jose'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export class FastifyAdapter {
@@ -30,7 +31,7 @@ export class FastifyAdapter {
       }
     }
     catch (error) {
-      if (error instanceof UnauthorizedError) {
+      if (error instanceof UnauthorizedError || error instanceof jose.errors.JWSSignatureVerificationFailed) {
         const mappedResponse = HttpMapper.unauthorized(error)
         reply.status(mappedResponse.statusCode).send(mappedResponse.body)
       }

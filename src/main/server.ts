@@ -7,10 +7,15 @@ import { env } from '@/main/config/env'
 import fastifySwaggerUi from '@fastify/swagger-ui'
 import { healthCheck } from './routes/health-check'
 import { clients } from './routes/clients'
+import { MailSenderFactory } from './factories/mail-sender.factory'
+
+const sendGridEmailSender = MailSenderFactory.make()
 
 async function startServer() {
   const server = fastify()
   await server.register(fastifySwagger)
+  await sendGridEmailSender.sendMail()
+
   server.register(fastifyAutoload, {
     dir: path.join(__dirname, 'routes'),
   })
