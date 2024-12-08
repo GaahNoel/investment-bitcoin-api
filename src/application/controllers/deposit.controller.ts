@@ -19,7 +19,7 @@ export class DepositController extends BaseController<DepositInput> {
 
     await this.depositUseCase.handle(input)
 
-    this.logger.info('Deposit controller process started', {
+    this.logger.info('Deposit controller process finished', {
       id: input.id,
     })
 

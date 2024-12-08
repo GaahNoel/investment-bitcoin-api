@@ -6,13 +6,13 @@ import { WinstonLogger } from '@/infra/libs/winston-logger.lib'
 
 export class MailSenderFactory {
   static make() {
-    if (env.ENV === 'test') {
-      return new FakeMailSender()
-    }
-
     const winstonLogger = new WinstonLogger()
 
     const rabbitmq = new RabbitMQQueue(env.RABBITMQ_URL, winstonLogger)
+
+    if (env.ENV === 'test') {
+      return new FakeMailSender(rabbitmq, winstonLogger)
+    }
 
     return new SendGridEmailSenderWorker(rabbitmq, winstonLogger)
   }
