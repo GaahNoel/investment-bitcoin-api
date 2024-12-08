@@ -1,5 +1,6 @@
 services: 
   api: 
+    container_name: "investment-bitcoin-api"
     build: 
       dockerfile: ./Dockerfile.local
     ports: 
@@ -9,8 +10,20 @@ services:
       - .:/usr/src/app
     environment: 
       SERVER_PORT: 3333
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/test?schema=public"
+      JWT_SECRET: "secret123"
+      RABBITMQ_URL: "amqp://rabbitmq:5672"
+      SEND_GRID_API_TOKEN: "SG.any-token"
+      SEND_GRID_SENDER: "any@sender.com"
+      NODE_ENV: "test"
+    depends_on:
+      db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
   db:
+    container_name: "investment-bitcoin-api-db"
     image: postgres:latest
     restart: always
     expose: 
@@ -28,8 +41,8 @@ services:
       retries: 3
 
   rabbitmq:
+    container_name: "investment-bitcoin-rabbitmq"
     image: rabbitmq:management
-    container_name: rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"

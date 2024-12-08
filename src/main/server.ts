@@ -30,7 +30,7 @@ async function startServer() {
 
   await server.listen({
     port: env.SERVER_PORT,
-    host: 'localhost',
+    host: '0.0.0.0',
   })
   await server.ready()
 

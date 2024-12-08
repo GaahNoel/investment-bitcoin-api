@@ -5,11 +5,14 @@
   "main": "index.js",
   "scripts": {
     "build": "tsup src",
-    "dev": "NODE_ENV=development tsx --watch src/main/server.ts",
-    "start": "node server.js",
+    "dev": "tsx --watch src/main/server.ts",
+    "start": "node src/main/server.js",
     "test:watch": "vitest",
     "test": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "generate:client": "yarn prisma generate",
+    "migrate:up": "yarn prisma migrate dev",
+    "migrate:push": "yarn prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
