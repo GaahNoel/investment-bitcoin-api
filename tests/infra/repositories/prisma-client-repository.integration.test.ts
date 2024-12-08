@@ -10,7 +10,13 @@ describe('PrismaClientRepository', () => {
   let payload: ClientInput
 
   beforeEach(async () => {
-    await client.client.deleteMany({})
+    await client.client.deleteMany({
+      where: {
+        email: {
+          contains: 'test-',
+        },
+      },
+    })
 
     payload = mockClientInput()
 
@@ -60,7 +66,7 @@ describe('PrismaClientRepository', () => {
       await sut.create(payload)
 
       const response = await sut.find({
-        email: 'other-email',
+        email: 'test-other-email',
       })
 
       expect(response).toBeUndefined()

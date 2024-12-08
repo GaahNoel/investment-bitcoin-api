@@ -1,7 +1,7 @@
 import { RabbitMQQueue } from '@/infra/queue/rabbit-mq.queue'
 import { env } from '@/main/config/env'
 import { mockLogger } from '@/tests/mocks/infra/logger.mock'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterAll, beforeEach, describe, expect, it } from 'vitest'
 
 describe('RabbitMQQueue', () => {
   let sut: RabbitMQQueue
@@ -10,9 +10,13 @@ describe('RabbitMQQueue', () => {
     sut = new RabbitMQQueue(env.RABBITMQ_URL, mockLogger())
   })
 
+  afterAll(async () => {
+    await sut.clearQueue('test')
+  })
+
   it('should send message to queue correctly', async () => {
     const response = await sut.send({
-      queue: 'email',
+      queue: 'test',
       data: {
         any: 'message',
       },

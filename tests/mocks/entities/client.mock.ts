@@ -2,7 +2,7 @@ import { ClientInput, SavedClientInput } from '@/domain/entities/client'
 
 export const mockClientInput = (params: Partial<ClientInput> = {}): ClientInput => {
   return {
-    email: 'any@mail.com',
+    email: 'test-any@mail.com',
     name: 'any-name',
     password: 'any-password',
     balance: 100,

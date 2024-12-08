@@ -11,17 +11,31 @@ describe('DepositController E2E', () => {
   server.register(clients)
 
   afterAll(async () => {
-    await client.client.deleteMany({})
+    await client.client.deleteMany({
+      where: {
+        email: {
+          contains: 'test-',
+        },
+      },
+    })
   })
 
   beforeAll(async () => {
+    await client.client.deleteMany({
+      where: {
+        email: {
+          contains: 'test-',
+        },
+      },
+    })
+
     const response = await server.inject({
       url: '/register',
       method: 'POST',
       body: {
         name: 'any-name',
         password: 'any-password',
-        email: 'any@email.com',
+        email: 'test-any@email.com',
         balance: 10,
       },
     })
@@ -29,7 +43,7 @@ describe('DepositController E2E', () => {
     createdClient = response.json()
   })
 
-  it('should not permit user with invalid jwt', async () => {
+  it('should not allow user with invalid jwt', async () => {
     const response = await server.inject({
       url: '/deposit',
       method: 'PATCH',
@@ -44,7 +58,7 @@ describe('DepositController E2E', () => {
     expect(response.statusCode).toBe(401)
   })
 
-  it('should not permit not logged user', async () => {
+  it('should not allow not logged user', async () => {
     const response = await server.inject({
       url: '/deposit',
       method: 'PATCH',
@@ -68,7 +82,7 @@ describe('DepositController E2E', () => {
       method: 'POST',
       body: {
         password: 'any-password',
-        email: 'any@email.com',
+        email: 'test-any@email.com',
       },
     })
 

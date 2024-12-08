@@ -13,7 +13,13 @@ describe('LoginController E2E', () => {
   server.register(clients)
 
   beforeEach(async () => {
-    await client.client.deleteMany({})
+    await client.client.deleteMany({
+      where: {
+        email: {
+          contains: 'test-',
+        },
+      },
+    })
   })
 
   afterAll(async () => {
@@ -27,7 +33,7 @@ describe('LoginController E2E', () => {
       body: {
         name: 'any-name',
         password: 'any-password',
-        email: 'any@email.com',
+        email: 'test-any@email.com',
         balance: 10,
       },
     })
@@ -37,7 +43,7 @@ describe('LoginController E2E', () => {
       method: 'POST',
       body: {
         password: 'any-password',
-        email: 'any@email.com',
+        email: 'test-any@email.com',
       },
     })
 
@@ -52,7 +58,7 @@ describe('LoginController E2E', () => {
       body: {
         name: 'any-name',
         password: 'any-password',
-        email: 'any@email.com',
+        email: 'test-any@email.com',
         balance: 10,
       },
     })
@@ -61,7 +67,7 @@ describe('LoginController E2E', () => {
       url: '/login',
       method: 'POST',
       body: {
-        email: 'any@email.com',
+        email: 'test-any@email.com',
       },
     })
 
@@ -75,7 +81,7 @@ describe('LoginController E2E', () => {
       body: {
         name: 'any-name',
         password: 'any-password',
-        email: 'any@email.com',
+        email: 'test-any@email.com',
         balance: 10,
       },
     })
@@ -84,7 +90,7 @@ describe('LoginController E2E', () => {
       url: '/login',
       method: 'POST',
       body: {
-        email: 'any@email.com',
+        email: 'test-any@email.com',
         password: 'any-wrong-password',
       },
     })

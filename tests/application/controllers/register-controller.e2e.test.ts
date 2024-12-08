@@ -13,7 +13,13 @@ describe('Register Controller E2E', () => {
   const queue = new RabbitMQQueue(env.RABBITMQ_URL, logger)
 
   beforeEach(async () => {
-    await client.client.deleteMany({})
+    await client.client.deleteMany({
+      where: {
+        email: {
+          contains: 'test-',
+        },
+      },
+    })
   })
 
   afterAll(async () => {
@@ -27,7 +33,7 @@ describe('Register Controller E2E', () => {
       body: {
         name: 'any-name',
         password: 'any-password',
-        email: 'any@email.com',
+        email: 'test-any@email.com',
         balance: 10,
       },
     })
@@ -51,7 +57,7 @@ describe('Register Controller E2E', () => {
       body: {
         name: 'any-name',
         password: 'any-password',
-        email: 'any@email.com',
+        email: 'test-any@email.com',
         balance: 10,
       },
     })
@@ -62,7 +68,7 @@ describe('Register Controller E2E', () => {
       body: {
         name: 'any-name',
         password: 'any-password',
-        email: 'any@email.com',
+        email: 'test-any@email.com',
         balance: 10,
       },
     })

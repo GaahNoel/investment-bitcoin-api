@@ -8,7 +8,7 @@ export const mockCreatedClientRepository = (params?: Partial<ClientInput>): Mock
   return {
     create: vi.fn().mockResolvedValue(new SavedClient({
       id: 'any-id',
-      email: 'any-email',
+      email: 'test-any-email',
       name: 'any-name',
       password: 'any-password',
       balance: 100,
