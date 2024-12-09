@@ -2,6 +2,7 @@ import { GetBitcoinPriceOutput, GetBitcoinPriceRepository } from '@/domain/contr
 import { HttpGetClient } from '../contracts/http-client.contract'
 import { env } from '@/main/config/env'
 import { Logger } from '@/domain/contracts/logger.contract'
+import { Cache } from '../contracts/cache.contract'
 
 type BitcoinApiResponse = {
   ticker: {
@@ -18,10 +19,30 @@ type BitcoinApiResponse = {
 }
 
 export class BitcoinAPI implements GetBitcoinPriceRepository {
-  constructor(private readonly httpGetClient: HttpGetClient, private readonly logger: Logger) {}
+  private cacheKey = 'bitcoin-api'
+  private cacheExpirationInSeconds = 3.600
+
+  constructor(
+    private readonly httpGetClient: HttpGetClient,
+    private readonly cache: Cache,
+    private readonly logger: Logger,
+  ) {}
+
+  static toDomain(input: BitcoinApiResponse): GetBitcoinPriceOutput {
+    return {
+      buy: Number(input.ticker.buy),
+      sell: Number(input.ticker.sell),
+    }
+  }
 
   async get(): Promise<GetBitcoinPriceOutput> {
     this.logger.info('Getting bitcoin price from bitcoin api')
+
+    const cachedResponse = await this.cache.get<BitcoinApiResponse>(this.cacheKey)
+
+    if (cachedResponse) {
+      return BitcoinAPI.toDomain(cachedResponse)
+    }
 
     const response = await this.httpGetClient.get<BitcoinApiResponse>({
       url: `${env.BITCOIN_API_URL}/api/BTC/ticker/`,
@@ -29,9 +50,12 @@ export class BitcoinAPI implements GetBitcoinPriceRepository {
 
     this.logger.info('Response received', response)
 
-    return {
-      buy: Number(response.ticker.buy),
-      sell: Number(response.ticker.sell),
-    }
+    await this.cache.save({
+      key: this.cacheKey,
+      value: response,
+      expirationInSeconds: this.cacheExpirationInSeconds,
+    })
+
+    return BitcoinAPI.toDomain(response)
   }
 }

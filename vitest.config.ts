@@ -17,6 +17,7 @@ export default defineConfig({
         'src/main/factories',
         'src/application/middlewares/base.middleware.ts',
         'src/fakes',
+        'coverage',
       ],
       provider: 'v8',
       thresholds: {
@@ -27,7 +28,7 @@ export default defineConfig({
       },
     },
     setupFiles: ['dotenv/config', path.resolve(__dirname, 'tests', 'config', 'env')],
-    // silent: true,
+    silent: true,
   },
   resolve: {
     alias: {
