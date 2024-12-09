@@ -14,20 +14,24 @@ export class LoginUseCase implements Login {
   ) {}
 
   async handle(input: LoginInput): Promise<LoginOutput> {
+    this.logger.info('Searching for client')
     const foundClient = await this.findClientRepository.find({
       email: input.email,
     })
 
     if (!foundClient) {
-      throw new InvalidInputError('email', 'Client not found with provided email')
+      const message = 'Client not found with provided email'
+      this.logger.error(message)
+      throw new InvalidInputError('email', message)
     }
-
+    this.logger.info('Validating password')
     const isValidPassword = this.hashComparer.compare(foundClient.password, input.password)
 
     if (!isValidPassword) {
+      this.logger.error('Invalid password provided')
       throw new InvalidInputError('password', 'Provided credentials are invalid')
     }
-
+    this.logger.info('Creating access token')
     const token = await this.tokenCreator.create({
       data: {
         id: foundClient.id,

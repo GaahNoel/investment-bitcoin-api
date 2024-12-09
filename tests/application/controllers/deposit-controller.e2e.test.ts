@@ -1,14 +1,12 @@
 import { SavedClientDTO } from '@/domain/entities/client'
 import { client } from '@/infra/repositories/prisma/config/connection'
-import { clients } from '@/main/routes/clients'
-import fastify from 'fastify'
+import { env } from '@/main/config/env'
+import { server } from '@/main/server'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 describe('DepositController E2E', () => {
   let createdClient: SavedClientDTO
   const mockedJWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
-  const server = fastify()
-  server.register(clients)
 
   afterAll(async () => {
     await client.client.deleteMany({
@@ -21,6 +19,8 @@ describe('DepositController E2E', () => {
   })
 
   beforeAll(async () => {
+    env.SERVER_PORT = 3334
+
     await client.client.deleteMany({
       where: {
         email: {
@@ -30,7 +30,7 @@ describe('DepositController E2E', () => {
     })
 
     const response = await server.inject({
-      url: '/register',
+      url: '/client/register',
       method: 'POST',
       body: {
         name: 'any-name',
@@ -45,7 +45,7 @@ describe('DepositController E2E', () => {
 
   it('should not allow user with invalid jwt', async () => {
     const response = await server.inject({
-      url: '/deposit',
+      url: '/client/deposit',
       method: 'PATCH',
       headers: {
         authorization: `Bearer ${mockedJWT}`,
@@ -60,7 +60,7 @@ describe('DepositController E2E', () => {
 
   it('should not allow not logged user', async () => {
     const response = await server.inject({
-      url: '/deposit',
+      url: '/client/deposit',
       method: 'PATCH',
       body: {
         amount: 100,
@@ -78,7 +78,7 @@ describe('DepositController E2E', () => {
     })
 
     const login = await server.inject({
-      url: '/login',
+      url: '/client/login',
       method: 'POST',
       body: {
         password: 'any-password',
@@ -87,7 +87,7 @@ describe('DepositController E2E', () => {
     })
 
     await server.inject({
-      url: '/deposit',
+      url: '/client/deposit',
       method: 'PATCH',
       headers: {
         authorization: `Bearer ${login.json().token}`,
@@ -112,7 +112,7 @@ describe('DepositController E2E', () => {
 
   it('should not deposit some amount lower than zero', async () => {
     const login = await server.inject({
-      url: '/login',
+      url: '/client/login',
       method: 'POST',
       body: {
         password: 'any-password',
@@ -121,7 +121,7 @@ describe('DepositController E2E', () => {
     })
 
     const response = await server.inject({
-      url: '/deposit',
+      url: '/client/deposit',
       method: 'PATCH',
       headers: {
         authorization: `Bearer ${login.json().token}`,

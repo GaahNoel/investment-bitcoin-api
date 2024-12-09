@@ -2,6 +2,7 @@ import path from 'path'
 import { configDefaults, defineConfig } from 'vitest/config'
 
 export default defineConfig({
+  envDir: './',
   test: {
     fileParallelism: false,
     coverage: {
@@ -25,8 +26,8 @@ export default defineConfig({
         lines: 100,
       },
     },
-    setupFiles: [path.resolve(__dirname, 'tests', 'config', 'env')],
-    silent: true,
+    setupFiles: ['dotenv/config', path.resolve(__dirname, 'tests', 'config', 'env')],
+    // silent: true,
   },
   resolve: {
     alias: {

@@ -492,11 +492,6 @@
     ajv-formats "^3.0.1"
     fast-uri "^3.0.0"
 
-"@fastify/autoload@^6.0.2":
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/@fastify/autoload/-/autoload-6.0.2.tgz#93343f955d6549bd44d0a4c439c6e3f4d8f52c97"
-  integrity sha512-efRwk2KKTPERxHEnzabK+w2pGxBExCCYixPYUMqtLd++Xsoh4h5Rrq8D2xZDq2BQ8hTFI1rzGLkHWsz40wgoWA==
-
 "@fastify/error@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@fastify/error/-/error-4.0.0.tgz#7842d6161fbce78953638318be99033a0c2d5070"

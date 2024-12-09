@@ -6,7 +6,7 @@ import { DepositControllerFactory } from '../factories/deposit-controller.factor
 import { AuthMiddlewareFactory } from '../factories/auth-middleware.factory'
 
 export async function clients(server: FastifyInstance) {
-  server.post('/register', {
+  server.post('/client/register', {
     schema: {
       body: {
         type: 'object',
@@ -29,7 +29,7 @@ export async function clients(server: FastifyInstance) {
     },
   }, (request, reply) => FastifyAdapter.adaptRoute(RegisterControllerFactory.make(), request, reply))
 
-  server.post('/login', {
+  server.post('/client/login', {
     schema: {
       body: {
         type: 'object',
@@ -45,7 +45,7 @@ export async function clients(server: FastifyInstance) {
     },
   }, (request, reply) => FastifyAdapter.adaptRoute(LoginControllerFactory.make(), request, reply))
 
-  server.patch('/deposit', {
+  server.patch('/client/deposit', {
     preHandler: (request, reply) => FastifyAdapter.adaptMiddleware(AuthMiddlewareFactory.make(), request, reply),
     schema: {
       body: {

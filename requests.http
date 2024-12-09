@@ -1,10 +1,10 @@
 @base_url = http://localhost:3333
-@token = 
+@token =
 ### Health check
 GET {{base_url}}/health-check
 
 ### @name Register
-POST {{base_url}}/register
+POST {{base_url}}/client/register
 Content-Type: application/json
 
 {
@@ -15,7 +15,7 @@ Content-Type: application/json
 }
 
 ### @name Login
-POST {{base_url}}/login
+POST {{base_url}}/client/login
 Content-Type: application/json
 
 {
@@ -24,7 +24,7 @@ Content-Type: application/json
 }
 
 ### @name Deposit
-PATCH {{base_url}}/deposit
+PATCH {{base_url}}/client/deposit
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -32,6 +32,10 @@ Authorization: Bearer {{token}}
   "id": "5599ab39-c556-4748-89da-dfcf6d268cae",
   "amount": 100
 }
+
+### @name GetBitcoinPrice
+GET {{base_url}}/bitcoin
+Content-Type: application/json
 
 
 

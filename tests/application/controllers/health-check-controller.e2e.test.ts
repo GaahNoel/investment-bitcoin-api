@@ -1,11 +1,11 @@
-import { healthCheck } from '@/main/routes/health-check'
-import fastify from 'fastify'
-import { expect, describe, it } from 'vitest'
+import { env } from '@/main/config/env'
+import { server } from '@/main/server'
+import { expect, describe, it, beforeAll } from 'vitest'
 
 describe('HealthCheckController E2E', () => {
-  const server = fastify()
-  server.register(healthCheck)
-
+  beforeAll(() => {
+    env.SERVER_PORT = 3334
+  })
   it('should return a message showing that application is on', async () => {
     const response = await server.inject({
       url: '/health-check',

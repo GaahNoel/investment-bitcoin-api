@@ -2,15 +2,16 @@ import { WinstonLogger } from '@/infra/libs/winston-logger.lib'
 import { RabbitMQQueue } from '@/infra/queue/rabbit-mq.queue'
 import { client } from '@/infra/repositories/prisma/config/connection'
 import { env } from '@/main/config/env'
-import { clients } from '@/main/routes/clients'
-import fastify from 'fastify'
-import { afterAll, beforeEach, describe, expect, it } from 'vitest'
+import { server } from '@/main/server'
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 
 describe('Register Controller E2E', () => {
-  const server = fastify()
-  server.register(clients)
   const logger = new WinstonLogger()
   const queue = new RabbitMQQueue(env.RABBITMQ_URL, logger)
+
+  beforeAll(() => {
+    env.SERVER_PORT = 3334
+  })
 
   beforeEach(async () => {
     await client.client.deleteMany({
@@ -28,7 +29,7 @@ describe('Register Controller E2E', () => {
 
   it('should return created and client infos if client created successfully', async () => {
     const response = await server.inject({
-      url: '/register',
+      url: '/client/register',
       method: 'POST',
       body: {
         name: 'any-name',
@@ -52,7 +53,7 @@ describe('Register Controller E2E', () => {
 
   it('should return bad request error if client already created', async () => {
     await server.inject({
-      url: '/register',
+      url: '/client/register',
       method: 'POST',
       body: {
         name: 'any-name',
@@ -63,7 +64,7 @@ describe('Register Controller E2E', () => {
     })
 
     const response = await server.inject({
-      url: '/register',
+      url: '/client/register',
       method: 'POST',
       body: {
         name: 'any-name',

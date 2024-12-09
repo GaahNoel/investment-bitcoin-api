@@ -19,6 +19,10 @@ export class RegisterController extends BaseController<ClientInput> {
 
     const createdClient = await this.createClient.handle(input)
 
+    this.logger.info('Client registered', {
+      name: input.name,
+    })
+
     return HttpMapper.created(createdClient.getDTO())
   }
 
