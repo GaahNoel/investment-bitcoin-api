@@ -15,9 +15,15 @@ server.register(fastifySwagger)
 server.register(fastifySwaggerUi, {
   routePrefix: '/docs',
 })
-server.register(healthCheck)
-server.register(clients)
-server.register(bitcoin)
+server.register(healthCheck, {
+  prefix: 'health-check',
+})
+server.register(clients, {
+  prefix: 'client',
+})
+server.register(bitcoin, {
+  prefix: 'bitcoin',
+})
 
 async function startServer() {
   await sendGridEmailSender.sendMail()
