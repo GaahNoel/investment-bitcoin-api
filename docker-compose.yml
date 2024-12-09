@@ -9,13 +9,13 @@ services:
       - ./node_modules:/usr/src/app/node_modules
       - .:/usr/src/app
     environment: 
-      SERVER_PORT: 3333
+      SERVER_PORT: ${SERVER_PORT}
       DATABASE_URL: "postgresql://postgres:postgres@db:5432/test?schema=public"
-      JWT_SECRET: "secret123"
+      JWT_SECRET: ${JWT_SECRET}
       RABBITMQ_URL: "amqp://rabbitmq:5672"
-      SEND_GRID_API_TOKEN: "SG.any-token"
-      SEND_GRID_SENDER: "any@sender.com"
-      NODE_ENV: "test"
+      SEND_GRID_API_TOKEN: ${SEND_GRID_API_TOKEN}
+      SEND_GRID_SENDER: ${SEND_GRID_SENDER}
+      NODE_ENV: ${NODE_ENV}
     depends_on:
       db:
         condition: service_healthy

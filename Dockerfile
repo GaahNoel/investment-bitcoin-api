@@ -33,6 +33,8 @@ RUN mv node_modules prisma package.json yarn.lock ./build
 
 FROM node:22-alpine
 
+ENV NODE_ENV=production
+
 WORKDIR /usr/src/app
 
 # Copy code from the build step

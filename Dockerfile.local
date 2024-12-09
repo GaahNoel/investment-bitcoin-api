@@ -2,6 +2,9 @@ FROM node:22 AS dev
 
 WORKDIR /usr/src/app
 
+# Setting test environment
+ENV NODE_ENV=test
+
 EXPOSE 3333
 
 # Copy all content
@@ -9,5 +12,7 @@ COPY . .
 
 # Installing dependencies
 RUN yarn install
+
+RUN yarn prisma generate
 
 ENTRYPOINT ["yarn", "dev"]
