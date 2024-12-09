@@ -1,5 +1,5 @@
 @base_url = http://localhost:3333
-@token =
+@token = 
 ### Health check
 GET {{base_url}}/health-check
 
@@ -34,8 +34,8 @@ Authorization: Bearer {{token}}
 }
 
 ### @name GetBitcoinPrice
-GET {{base_url}}/bitcoin
+GET {{base_url}}/client/balance
 Content-Type: application/json
-
+Authorization: Bearer {{token}}
 
 

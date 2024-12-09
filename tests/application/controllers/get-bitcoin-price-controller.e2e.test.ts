@@ -8,8 +8,31 @@ describe('GetBitcoinPriceController E2E', () => {
   })
 
   it('should return the bitcoin price correctly', async () => {
+    await server.inject({
+      url: '/client/register',
+      method: 'POST',
+      body: {
+        name: 'any-name',
+        password: 'any-password',
+        email: 'test-any@email.com',
+        balance: 10,
+      },
+    })
+
+    const login = await server.inject({
+      url: '/client/login',
+      method: 'POST',
+      body: {
+        password: 'any-password',
+        email: 'test-any@email.com',
+      },
+    })
+
     const response = await server.inject({
       url: '/bitcoin',
+      headers: {
+        authorization: `Bearer ${login.json().token}`,
+      },
     })
 
     const body = response.json()

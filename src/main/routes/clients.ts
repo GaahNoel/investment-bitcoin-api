@@ -4,6 +4,7 @@ import { RegisterControllerFactory } from '../factories/register-controller.fact
 import { LoginControllerFactory } from '../factories/login-controller.factory'
 import { DepositControllerFactory } from '../factories/deposit-controller.factory'
 import { AuthMiddlewareFactory } from '../factories/auth-middleware.factory'
+import { GetClientBalanceControllerFactory } from '../factories/get-client-balance-controller.factory'
 
 export async function clients(server: FastifyInstance) {
   server.post('/register', {
@@ -59,6 +60,28 @@ export async function clients(server: FastifyInstance) {
           },
         },
       },
+      headers: {
+        type: 'object',
+        properties: {
+          Authorization: {
+            type: 'string',
+          },
+        },
+      },
     },
   }, (request, reply) => FastifyAdapter.adaptRoute(DepositControllerFactory.make(), request, reply))
+
+  server.get('/balance', {
+    preHandler: (request, reply) => FastifyAdapter.adaptMiddleware(AuthMiddlewareFactory.make(), request, reply),
+    schema: {
+      headers: {
+        type: 'object',
+        properties: {
+          Authorization: {
+            type: 'string',
+          },
+        },
+      },
+    },
+  }, (request, reply) => FastifyAdapter.adaptRoute(GetClientBalanceControllerFactory.make(), request, reply))
 }
