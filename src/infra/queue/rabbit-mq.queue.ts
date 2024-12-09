@@ -29,8 +29,12 @@ export class RabbitMQQueue implements SendToQueue, ConsumeFromQueue {
       await this.createConnection()
     }
 
-    await this.channel?.assertQueue(input.queue, { durable: true })
-    const response = await this.channel?.sendToQueue(input.queue, Buffer.from(JSON.stringify(input)), { persistent: true })
+    if (!this.channel) {
+      throw new Error('Cannot establish connection with the RabbitMQ')
+    }
+
+    await this.channel.assertQueue(input.queue, { durable: true })
+    const response = await this.channel.sendToQueue(input.queue, Buffer.from(JSON.stringify(input)), { persistent: true })
 
     return Boolean(response)
   }
@@ -39,11 +43,18 @@ export class RabbitMQQueue implements SendToQueue, ConsumeFromQueue {
     if (this.channel === undefined) {
       await this.createConnection()
     }
-    this.channel?.assertQueue(queue, { durable: true })
-    await this.channel?.consume(queue, async (message) => {
+
+    if (!this.channel) {
+      throw new Error('Cannot establish connection with the RabbitMQ')
+    }
+
+    await this.channel.assertQueue(queue, { durable: true })
+    const channel = this.channel
+
+    await this.channel.consume(queue, async (message) => {
       if (message) {
         await callback(message.content.toString())
-        this.channel?.ack(message)
+        channel.ack(message)
       }
     })
   }
@@ -52,7 +63,12 @@ export class RabbitMQQueue implements SendToQueue, ConsumeFromQueue {
     if (this.channel === undefined) {
       await this.createConnection()
     }
-    this.channel?.assertQueue(queueName, { durable: true })
-    await this.channel?.purgeQueue(queueName)
+
+    if (!this.channel) {
+      throw new Error('Cannot establish connection with the RabbitMQ')
+    }
+
+    await this.channel.assertQueue(queueName, { durable: true })
+    await this.channel.purgeQueue(queueName)
   }
 }
