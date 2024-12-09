@@ -8,18 +8,18 @@ describe('DepositController E2E', () => {
   let createdClient: SavedClientDTO
   const mockedJWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
 
-  afterAll(async () => {
-    await client.client.deleteMany({
+  beforeAll(async () => {
+    env.SERVER_PORT = 3334
+
+    await client.deposit.deleteMany({
       where: {
-        email: {
-          contains: 'test-',
+        client: {
+          email: {
+            contains: 'test-',
+          },
         },
       },
     })
-  })
-
-  beforeAll(async () => {
-    env.SERVER_PORT = 3334
 
     await client.client.deleteMany({
       where: {
@@ -41,6 +41,26 @@ describe('DepositController E2E', () => {
     })
 
     createdClient = response.json()
+  })
+
+  afterAll(async () => {
+    await client.deposit.deleteMany({
+      where: {
+        client: {
+          email: {
+            contains: 'test-',
+          },
+        },
+      },
+    })
+
+    await client.client.deleteMany({
+      where: {
+        email: {
+          contains: 'test-',
+        },
+      },
+    })
   })
 
   it('should not allow user with invalid jwt', async () => {
@@ -97,15 +117,19 @@ describe('DepositController E2E', () => {
       },
     })
 
-    const foundClient = await client.client.findFirst({
+    const foundClient = await client.deposit.findFirst({
+      include: {
+        client: true,
+      },
       where: {
-        id: createdClient.id,
+        clientId: createdClient.id,
       },
     })
 
     const initialClientBalance = foundInitialClient?.balanceInCents as number
-    const finalClientBalance = foundClient?.balanceInCents
+    const finalClientBalance = foundClient?.client.balanceInCents
 
+    expect(foundClient?.id).toBeDefined()
     expect(initialClientBalance).not.toBe(finalClientBalance)
     expect(finalClientBalance).toBe(initialClientBalance + 100)
   })

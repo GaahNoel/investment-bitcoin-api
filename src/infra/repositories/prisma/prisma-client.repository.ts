@@ -11,12 +11,7 @@ export class PrismaClientRepository implements CreateClientRepository, FindClien
 
   async create(input: ClientInput): Promise<SavedClient> {
     const response = await client.client.create({
-      data: {
-        name: input.name,
-        email: input.email,
-        password: input.password,
-        balanceInCents: input.balance ?? 0,
-      },
+      data: PrismaClientMapper.toPrisma(input),
     })
 
     return PrismaClientMapper.toDomain(response)

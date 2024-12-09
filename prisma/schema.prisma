@@ -14,9 +14,33 @@ datasource db {
 }
 
 model Client {
-  id             String @id @default(uuid())
-  email          String @unique
+  id             String       @id @default(uuid())
+  email          String       @unique
   password       String
   name           String
-  balanceInCents Int    @map("balance_in_cents")
+  balanceInCents Int          @map("balance_in_cents")
+  Deposit        Deposit[]
+  Investment     Investment[]
+}
+
+model Deposit {
+  id           String   @id @default(uuid())
+  client       Client   @relation(fields: [clientId], references: [id])
+  clientId     String
+  depositDate  DateTime @map("deposit_date")
+  valueInCents Int      @map("value_in_cents")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+}
+
+model Investment {
+  id                     String   @id @default(uuid())
+  client                 Client   @relation(fields: [clientId], references: [id])
+  clientId               String
+  orderDate              DateTime @map("order_date")
+  bitcoinPrice           Float    @map("bitcoin_price")
+  amount                 Float
+  investmentValueInCents Int      @map("investment_value_in_cents")
+  createdAt              DateTime @default(now()) @map("created_at")
+  updatedAt              DateTime @updatedAt @map("updated_at")
 }

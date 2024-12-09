@@ -1,5 +1,5 @@
-import { SavedClient } from '@/domain/entities/client'
-import { Client as PrismaClient } from '@prisma/client'
+import { ClientInput, SavedClient } from '@/domain/entities/client'
+import { Prisma, Client as PrismaClient } from '@prisma/client'
 
 export class PrismaClientMapper {
   static toDomain(client: PrismaClient): SavedClient {
@@ -10,5 +10,14 @@ export class PrismaClientMapper {
       password: client.password,
       balance: client.balanceInCents,
     })
+  }
+
+  static toPrisma(client: ClientInput): Prisma.ClientCreateInput {
+    return {
+      name: client.name,
+      email: client.email,
+      password: client.password,
+      balanceInCents: client.balance ?? 0,
+    }
   }
 }
