@@ -9,6 +9,10 @@ const envSchema = z.object({
   SEND_GRID_SENDER: z.string(),
   BITCOIN_API_URL: z.string(),
   ENV: z.string(),
+  CACHE_HOST: z.string(),
+  CACHE_USERNAME: z.string(),
+  CACHE_PASSWORD: z.string(),
+  CACHE_PORT: z.coerce.number().default(6379),
 })
 
 export const env = envSchema.parse({
@@ -19,4 +23,8 @@ export const env = envSchema.parse({
   SEND_GRID_SENDER: process.env.SEND_GRID_SENDER,
   BITCOIN_API_URL: process.env.BITCOIN_API_URL,
   ENV: process.env.NODE_ENV,
+  CACHE_HOST: process.env.CACHE_HOST,
+  CACHE_USERNAME: process.env.CACHE_USERNAME,
+  CACHE_PASSWORD: process.env.CACHE_PASSWORD,
+  CACHE_PORT: process.env.CACHE_PORT,
 })

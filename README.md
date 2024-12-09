@@ -25,7 +25,7 @@ Now, your application and the environment required to proceed are ready to use, 
 ### Running locally
 But, if you want to run all the other containers but not the api to run it locally, you can use the following command:
 ````shell
-  docker compose up -d db rabbitmq
+  docker compose up -d db rabbitmq cache
 ````
 Now you need to run the api locally to proceed with the tests, to do this, you first need to change your node version to the one used to build the project (available on .npmrc, if you have nvm, you can run `nvm install` to install the correct version) and run the following commands:
 ````shell
