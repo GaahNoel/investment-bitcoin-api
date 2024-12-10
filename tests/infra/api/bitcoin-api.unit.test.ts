@@ -41,7 +41,7 @@ describe('BitcoinAPI', () => {
 
     expect(cache.save).toHaveBeenCalledWith({
       key: 'bitcoin-api',
-      expirationInSeconds: 3.6,
+      expirationInSeconds: 3600,
       value: {
         ticker: {
           high: '620850.77000000',

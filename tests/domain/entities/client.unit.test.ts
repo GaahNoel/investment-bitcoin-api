@@ -63,6 +63,12 @@ describe('Client Entity', () => {
       expect(client.balance).toBe(0)
     })
 
+    it('should not subtract balance if provided amount is higher than client balance', () => {
+      const client = new Client(input)
+
+      expect(() => client.subtractBalance(1000)).toThrow()
+    })
+
     it('should throw error if balance provided is lower than zero', () => {
       const client = new Client(input)
 

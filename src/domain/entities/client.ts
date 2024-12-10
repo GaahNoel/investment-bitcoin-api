@@ -57,10 +57,15 @@ export class Client {
 
   public subtractBalance(amount: number) {
     if (amount <= 0) {
-      throw new Error('Cannot subtract an amount lower than zero')
+      throw new InvalidInputError('Cannot subtract an amount lower than zero')
     }
 
-    this._balance -= amount
+    const finalBalance = this._balance - amount
+    if (finalBalance < 0) {
+      throw new InvalidInputError('Balance cannot be lower than zero after subtraction')
+    }
+
+    this._balance = finalBalance
   }
 
   public getDTO(): ClientDTO {

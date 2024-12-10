@@ -1,31 +1,31 @@
-import { Deposit, DepositInput } from '@/domain/contracts/deposit.contract'
 import { BaseController } from './base.controller'
 import { HttpResponse } from '../contracts/http.contract'
 import { ValidateOutput } from '../contracts/validate.contract'
 import { z } from 'zod'
 import { Logger } from '@/domain/contracts/logger.contract'
 import { HttpMapper } from '../mappers/http.mapper'
+import { BuyBitcoin, BuyBitcoinInput } from '@/domain/contracts/buy-bitcoin.contract'
 
-export class DepositController extends BaseController<DepositInput> {
-  constructor(private readonly depositUseCase: Deposit, logger: Logger) {
+export class BuyBitcoinController extends BaseController<BuyBitcoinInput> {
+  constructor(private readonly buyBitCoinUseCase: BuyBitcoin, logger: Logger) {
     super(logger)
   }
 
-  async execute(input: DepositInput): Promise<HttpResponse> {
-    this.logger.info('Deposit controller process started', {
+  async execute(input: BuyBitcoinInput): Promise<HttpResponse> {
+    this.logger.info('Buy bitcoin controller process started', {
       id: input.id,
     })
 
-    await this.depositUseCase.handle(input)
+    const response = await this.buyBitCoinUseCase.handle(input)
 
-    this.logger.info('Deposit controller process finished', {
+    this.logger.info('Buy bitcoin controller process finished', {
       id: input.id,
     })
 
-    return HttpMapper.success()
+    return HttpMapper.success(response.getDTO())
   }
 
-  validate(input: DepositInput): ValidateOutput {
+  validate(input: BuyBitcoinInput): ValidateOutput {
     const schema = z.object({
       id: z.string(),
       amount: z.coerce.number(),

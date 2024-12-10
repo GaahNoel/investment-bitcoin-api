@@ -5,6 +5,8 @@ import { beforeAll, describe, expect, it } from 'vitest'
 describe('GetBitcoinPriceController E2E', () => {
   beforeAll(() => {
     env.SERVER_PORT = 3334
+
+    env.ENV = 'development'
   })
 
   it('should return the bitcoin price correctly', async () => {

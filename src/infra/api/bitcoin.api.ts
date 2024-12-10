@@ -20,7 +20,7 @@ type BitcoinApiResponse = {
 
 export class BitcoinAPI implements GetBitcoinPriceRepository {
   private cacheKey = 'bitcoin-api'
-  private cacheExpirationInSeconds = 3.600
+  private cacheExpirationInSeconds = 3600
 
   constructor(
     private readonly httpGetClient: HttpGetClient,

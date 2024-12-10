@@ -20,7 +20,7 @@ Content-Type: application/json
 
 {
   "password": "any-password",
-  "email": "any@email.com"
+  "email": "any@email.com",
 }
 
 ### @name Deposit
@@ -29,13 +29,26 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "id": "5599ab39-c556-4748-89da-dfcf6d268cae",
-  "amount": 100
+  "amount":1000000
 }
 
-### @name GetBitcoinPrice
+### @name GetClientBalance
 GET {{base_url}}/client/balance
 Content-Type: application/json
 Authorization: Bearer {{token}}
+
+### @name GetBitcoinPrice
+GET {{base_url}}/bitcoin
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### @name BuyBitcoin
+POST {{base_url}}/client/buy-bitcoin
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "amount": 0.2
+}
 
 

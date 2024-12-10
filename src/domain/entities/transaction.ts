@@ -12,6 +12,11 @@ export type TransactionInput = {
   clientId: string
 }
 
+export type TransactionOutput = {
+  amount: number
+  date: string
+}
+
 export abstract class Transaction {
   abstract readonly type: TransactionType
   private readonly _amount: number
@@ -34,5 +39,12 @@ export abstract class Transaction {
 
   public get clientId() {
     return this._clientId
+  }
+
+  public getDTO(): TransactionOutput {
+    return {
+      amount: this._amount,
+      date: this.date.toShortString(),
+    }
   }
 }
