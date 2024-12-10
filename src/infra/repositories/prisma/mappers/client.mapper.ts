@@ -8,7 +8,7 @@ export class PrismaClientMapper {
       id: client.id,
       name: client.name,
       password: client.password,
-      balance: client.balanceInCents,
+      balance: client.balance,
     })
   }
 
@@ -17,7 +17,7 @@ export class PrismaClientMapper {
       name: client.name,
       email: client.email,
       password: client.password,
-      balanceInCents: client.balance ?? 0,
+      balance: client.balance ?? 0,
     }
   }
 }

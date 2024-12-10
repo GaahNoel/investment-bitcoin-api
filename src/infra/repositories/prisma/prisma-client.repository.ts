@@ -38,7 +38,7 @@ export class PrismaClientRepository implements CreateClientRepository, FindClien
   async update(id: string, input: Partial<ClientInput>): Promise<SavedClient> {
     const response = await client.client.update({
       data: {
-        balanceInCents: input.balance,
+        balance: input.balance,
         email: input.email,
         name: input.name,
       },

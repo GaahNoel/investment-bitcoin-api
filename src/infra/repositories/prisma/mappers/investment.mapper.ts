@@ -10,7 +10,7 @@ export class PrismaInvestmentMapper {
       clientId: investment.clientId,
       date: new DateObject(investment.orderDate),
       id: investment.id,
-      investmentValue: investment.investmentValueInCents,
+      investmentValue: investment.investmentValue,
     })
   }
 
@@ -19,7 +19,7 @@ export class PrismaInvestmentMapper {
       amount: investment.amount,
       bitcoinPrice: investment.bitcoinPrice,
       clientId: investment.clientId,
-      investmentValueInCents: investment.investmentValue,
+      investmentValue: investment.investmentValue,
       orderDate: investment.date.value,
     }
   }

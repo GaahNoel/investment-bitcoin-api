@@ -5,7 +5,7 @@ import { Deposit as PrismaDeposit, Prisma } from '@prisma/client'
 export class PrismaDepositMapper {
   static toDomain(deposit: PrismaDeposit): SavedDeposit {
     return new SavedDeposit({
-      amount: deposit.valueInCents,
+      amount: deposit.value,
       clientId: deposit.clientId,
       date: new DateObject(deposit.depositDate),
       id: deposit.id,
@@ -14,7 +14,7 @@ export class PrismaDepositMapper {
 
   static toPrisma(deposit: Deposit): Prisma.DepositCreateManyInput {
     return {
-      valueInCents: deposit.amount,
+      value: deposit.amount,
       clientId: deposit.clientId,
       depositDate: deposit.date.value,
     }

@@ -120,9 +120,9 @@ describe('BuyBitcoinController E2E', () => {
       },
     })
 
-    const finalClientBalance = foundInvestment?.client.balanceInCents
+    const finalClientBalance = foundInvestment?.client.balance
     expect(finalClientBalance).toBe(0)
-    expect(foundInvestment?.investmentValueInCents).toBe(1000)
+    expect(foundInvestment?.investmentValue).toBe(1000)
   })
 
   it('should not buy some amount lower than zero', async () => {
