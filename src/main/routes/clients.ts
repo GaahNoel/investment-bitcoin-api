@@ -52,9 +52,6 @@ export async function clients(server: FastifyInstance) {
       body: {
         type: 'object',
         properties: {
-          id: {
-            type: 'string',
-          },
           amount: {
             type: 'number',
           },

@@ -39,7 +39,7 @@ describe('DepositUseCase', () => {
     }),
 
     expect(saveDepositRepository.save).toHaveBeenCalledWith(new Deposit({
-      amount: 200,
+      amount: 100,
       date: new DateObject(new Date()),
       clientId: 'any-id',
     })),

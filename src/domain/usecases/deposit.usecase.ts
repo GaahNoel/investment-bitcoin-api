@@ -37,7 +37,7 @@ export class DepositUseCase implements DepositContract {
     })
 
     const deposit = new Deposit({
-      amount: clientToUpdate.balance,
+      amount: input.amount,
       date: new DateObject(new Date()),
       clientId: clientToUpdate.id,
     })

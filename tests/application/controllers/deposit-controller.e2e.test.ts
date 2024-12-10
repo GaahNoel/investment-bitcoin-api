@@ -129,7 +129,7 @@ describe('DepositController E2E', () => {
     const initialClientBalance = foundInitialClient?.balanceInCents as number
     const finalClientBalance = foundClient?.client.balanceInCents
 
-    expect(foundClient?.id).toBeDefined()
+    expect(foundClient?.valueInCents).toBe(100)
     expect(initialClientBalance).not.toBe(finalClientBalance)
     expect(finalClientBalance).toBe(initialClientBalance + 100)
   })
