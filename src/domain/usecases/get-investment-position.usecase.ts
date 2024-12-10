@@ -37,7 +37,7 @@ export class GetInvestmentPositionUseCase implements GetInvestmentPosition {
         amount: investment.amount,
         bitcoinPrice: investment.bitcoinPrice,
         bitcoinVariationPercent: ((sell / investment.bitcoinPrice) - 1) * 100,
-        grossCurrentInvestmentValue: Math.round(sell * investment.amount),
+        grossCurrentInvestmentValue: sell * investment.amount,
         investmentValue: investment.investmentValue,
         orderDate: investment.date.toShortString(),
       }
