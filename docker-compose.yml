@@ -5,6 +5,7 @@ services:
       dockerfile: ./Dockerfile.local
     ports: 
      - "3333:3333"
+     - "5555:5555"
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
