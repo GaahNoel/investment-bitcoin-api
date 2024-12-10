@@ -3,6 +3,7 @@ import { env } from '../config/env'
 import { SendGridEmailSenderWorker } from '@/infra/workers/send-grid-email-sender.worker'
 import { RabbitMQQueue } from '@/infra/queue/rabbit-mq.queue'
 import { WinstonLogger } from '@/infra/libs/winston-logger.lib'
+import { Environment } from '@/domain/const/environment'
 
 export class MailSenderFactory {
   static make() {
@@ -10,7 +11,7 @@ export class MailSenderFactory {
 
     const rabbitmq = new RabbitMQQueue(env.RABBITMQ_URL, winstonLogger)
 
-    if (env.ENV === 'test') {
+    if ([Environment.Development, Environment.Test].includes(env.ENV)) {
       return new FakeMailSender(rabbitmq, winstonLogger)
     }
 

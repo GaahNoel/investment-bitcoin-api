@@ -1,3 +1,4 @@
+import { Environment } from '@/domain/const/environment'
 import 'dotenv/config'
 import { z } from 'zod'
 
@@ -8,7 +9,7 @@ const envSchema = z.object({
   SEND_GRID_API_TOKEN: z.string(),
   SEND_GRID_SENDER: z.string(),
   BITCOIN_API_URL: z.string(),
-  ENV: z.string(),
+  ENV: z.nativeEnum(Environment).default(Environment.Development),
   CACHE_HOST: z.string(),
   CACHE_USERNAME: z.string(),
   CACHE_PASSWORD: z.string(),

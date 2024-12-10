@@ -10,7 +10,8 @@ This env vars cannot be on example because of data sensibility. The other ones a
 Some envs have default value inside the `src/main/config/env` file that validates the required envs to start the application
 
 The NODE_ENV have the following available values to use at this moment:
-* test: this value disables the sendgrid email sender to not exceed the email limit while running tests
+* test: this value disables the sendgrid email sender to not exceed the email limit while running tests and bitcoin api response are mocked
+* dev: only the send grid sender is disabled, the bitcoin api returns the value from api
 * production: this value enable the sendgrid email sender, use at your with caution
 
 ### Running on docker

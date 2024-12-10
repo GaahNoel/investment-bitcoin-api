@@ -9,6 +9,7 @@ import { BitcoinAPI } from '@/infra/api/bitcoin.api'
 import { NodeFetch } from '@/infra/http/node-fetch.http'
 import { RedisCache } from '@/infra/cache/redis.cache'
 import { FakeBitcoinAPI } from '@/fakes/bit-coin-api.fake'
+import { Environment } from '@/domain/const/environment'
 
 export class BuyBitcoinControllerFactory {
   static make(): BuyBitcoinController {
@@ -18,7 +19,7 @@ export class BuyBitcoinControllerFactory {
     const clientRepository = new PrismaClientRepository(logger)
     const sendToQueue = new RabbitMQQueue(env.RABBITMQ_URL, logger)
     const investmentRepository = new PrismaInvestmentRepository(logger)
-    const bitcoinApi = env.ENV === 'test' ? new FakeBitcoinAPI() : new BitcoinAPI(httpClient, cache, logger)
+    const bitcoinApi = env.ENV === Environment.Test ? new FakeBitcoinAPI() : new BitcoinAPI(httpClient, cache, logger)
 
     const createClientUseCase = new BuyBitcoinUseCase(clientRepository, bitcoinApi, investmentRepository, clientRepository, sendToQueue, logger)
 

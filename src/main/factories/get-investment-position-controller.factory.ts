@@ -7,6 +7,7 @@ import { NodeFetch } from '@/infra/http/node-fetch.http'
 import { WinstonLogger } from '@/infra/libs/winston-logger.lib'
 import { PrismaInvestmentRepository } from '@/infra/repositories/prisma/prisma-investment.repository'
 import { env } from '../config/env'
+import { Environment } from '@/domain/const/environment'
 
 export class GetInvestmentPositionControllerFactory {
   static make() {
@@ -14,7 +15,7 @@ export class GetInvestmentPositionControllerFactory {
     const httpClient = new NodeFetch()
     const cache = new RedisCache(logger)
     const investmentRepository = new PrismaInvestmentRepository(logger)
-    const bitcoinApi = env.ENV === 'test' ? new FakeBitcoinAPI() : new BitcoinAPI(httpClient, cache, logger)
+    const bitcoinApi = env.ENV === Environment.Test ? new FakeBitcoinAPI() : new BitcoinAPI(httpClient, cache, logger)
 
     const getInvestmentPositionUseCase = new GetInvestmentPositionUseCase(investmentRepository, bitcoinApi, logger)
 
