@@ -66,4 +66,34 @@ describe('PrismaInvestmentRepository', () => {
       expect(response.id).toBeDefined()
     })
   })
+
+  describe('list', () => {
+    let payload: Investment
+
+    beforeEach(async () => {
+      await client.investment.deleteMany({
+        where: {
+          client: {
+            email: {
+              contains: 'test-',
+            },
+          },
+        },
+      })
+
+      payload = new Investment(mockInvestmentInput({
+        clientId: createdClient.id,
+      }))
+    })
+    it('should save investment successfully', async () => {
+      await sut.save(payload)
+
+      const response = await sut.list({
+        id: createdClient.id,
+      })
+
+      expect(response.length).toBe(1)
+      expect(response[0]).toBeInstanceOf(SavedInvestment)
+    })
+  })
 })

@@ -6,6 +6,7 @@ import { DepositControllerFactory } from '../factories/deposit-controller.factor
 import { AuthMiddlewareFactory } from '../factories/auth-middleware.factory'
 import { GetClientBalanceControllerFactory } from '../factories/get-client-balance-controller.factory'
 import { BuyBitcoinControllerFactory } from '../factories/buy-bicoin-controller.factory'
+import { GetInvestmentPositionControllerFactory } from '../factories/get-investment-position-controller.factory'
 
 export async function clients(server: FastifyInstance) {
   server.post('/register', {
@@ -104,4 +105,18 @@ export async function clients(server: FastifyInstance) {
       },
     },
   }, (request, reply) => FastifyAdapter.adaptRoute(BuyBitcoinControllerFactory.make(), request, reply))
+
+  server.get('/investments', {
+    preHandler: (request, reply) => FastifyAdapter.adaptMiddleware(AuthMiddlewareFactory.make(), request, reply),
+    schema: {
+      headers: {
+        type: 'object',
+        properties: {
+          Authorization: {
+            type: 'string',
+          },
+        },
+      },
+    },
+  }, (request, reply) => FastifyAdapter.adaptRoute(GetInvestmentPositionControllerFactory.make(), request, reply))
 }

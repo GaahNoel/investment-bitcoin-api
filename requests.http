@@ -20,7 +20,7 @@ Content-Type: application/json
 
 {
   "password": "any-password",
-  "email": "any@email.com",
+  "email": "any@email.com"
 }
 
 ### @name Deposit
@@ -50,5 +50,11 @@ Authorization: Bearer {{token}}
 {
   "amount": 0.2
 }
+
+### @name GetInvestmentPosition
+GET {{base_url}}/client/investments
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
 
 
