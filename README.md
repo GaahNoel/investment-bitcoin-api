@@ -19,7 +19,7 @@ If you do, you can run the following command:
 ````shell
   docker compose up -d
 ````
-After that, you need to run the db migrations using `yarn migrate:push`.
+After that, you need to run the db migrations using `docker exec -it investment-bitcoin-api yarn migrate:push`.
 Now, your application and the environment required to proceed are ready to use, have fun! 🚀
 
 ### Running locally
@@ -53,4 +53,5 @@ To test the application manually calling the requests, you can use:
 * The `requests.http` file using the rest client extension on vscode
 * Or the http client of your preference like Postman, Insomnia, Httpie, and others
 
+If you want, you can run `yarn prisma studio` or `docker exec -it investment-bitcoin-api yarn prisma studio` to get inside the database gui and check the registers.
 You can also see the dashboard of the rabbit mq accessing the `http://localhost:15672` and access this using the `guest` user with password `guest`. 

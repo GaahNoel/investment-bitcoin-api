@@ -6,8 +6,8 @@ services:
     ports: 
      - "3333:3333"
     volumes:
-      - ./node_modules:/usr/src/app/node_modules
       - .:/usr/src/app
+      - /usr/src/app/node_modules
     environment: 
       SERVER_PORT: ${SERVER_PORT}
       DATABASE_URL: "postgresql://postgres:postgres@db:5432/test?schema=public"
