@@ -1,3 +1,4 @@
+import { Environment } from '@/domain/const/environment'
 import { WinstonLogger } from '@/infra/libs/winston-logger.lib'
 import { RabbitMQQueue } from '@/infra/queue/rabbit-mq.queue'
 import { client } from '@/infra/repositories/prisma/config/connection'
@@ -10,6 +11,8 @@ describe('Register Controller E2E', () => {
   const queue = new RabbitMQQueue(env.RABBITMQ_URL, logger)
 
   beforeAll(() => {
+    env.ENV = Environment.Test
+    
     env.SERVER_PORT = 3334
   })
 

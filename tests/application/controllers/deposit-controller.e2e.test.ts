@@ -1,3 +1,4 @@
+import { Environment } from '@/domain/const/environment'
 import { SavedClientDTO } from '@/domain/entities/client'
 import { client } from '@/infra/repositories/prisma/config/connection'
 import { env } from '@/main/config/env'
@@ -10,6 +11,7 @@ describe('DepositController E2E', () => {
 
   beforeAll(async () => {
     env.SERVER_PORT = 3334
+    env.ENV = Environment.Test
 
     await client.deposit.deleteMany({
       where: {

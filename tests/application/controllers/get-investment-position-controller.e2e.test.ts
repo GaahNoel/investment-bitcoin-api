@@ -1,3 +1,4 @@
+import { Environment } from '@/domain/const/environment'
 import { client } from '@/infra/repositories/prisma/config/connection'
 import { env } from '@/main/config/env'
 import { server } from '@/main/server'
@@ -6,6 +7,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 describe('GetInvestmentPosition E2E', () => {
   beforeAll(async () => {
     env.SERVER_PORT = 3334
+    env.ENV = Environment.Test
 
     await client.investment.deleteMany({
       where: {
