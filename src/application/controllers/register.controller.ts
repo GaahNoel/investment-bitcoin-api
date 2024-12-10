@@ -31,7 +31,7 @@ export class RegisterController extends BaseController<ClientInput> {
       name: z.string(),
       email: z.string().email(),
       password: z.string(),
-      balance: z.number().gt(0),
+      balance: z.number().gte(0),
     })
 
     const response = schema.safeParse(input)
